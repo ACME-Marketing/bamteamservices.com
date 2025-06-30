@@ -3,7 +3,7 @@ import { graphQLClient, gql } from '../lib/graphql';
 
 const GET_BAMTEAMSERVICES_POSTS = gql`
   query GetBamteamservicesPosts {
-    posts(where: { categoryName: "BAM Team Services Insights" }) {
+    posts(where: { categoryNameIn: ["bam-team", "all"] }) {
       nodes {
         title
         uri
