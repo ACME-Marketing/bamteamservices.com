@@ -1,12 +1,17 @@
 ---
 import { graphQLClient, gql } from '../lib/graphql';
 
-const GET_POSTS = gql`
-  query GetPosts {
-    posts {
+const GET_BAMTEAMSERVICES_POSTS = gql`
+  query GetBamteamservicesPosts {
+    posts(where: { categoryName: "BAM Team Services Insights" }) {
       nodes {
         title
         uri
+        categories {
+          nodes {
+            name
+          }
+        }
       }
     }
   }
@@ -14,10 +19,10 @@ const GET_POSTS = gql`
 
 let posts = [];
 try {
-  const data = await graphQLClient.request(GET_POSTS);
+  const data = await graphQLClient.request(GET_BAMTEAMSERVICES_POSTS);
   posts = data.posts.nodes;
 } catch (error) {
-  console.error("Error fetching posts:", error);
+  console.error("Error fetching posts for bamteamservices.com:", error);
 }
 ---
 
@@ -37,11 +42,14 @@ try {
 				{posts.map((post) => (
 					<li>
 						<a href={post.uri}>{post.title}</a>
+						{post.categories && post.categories.nodes.length > 0 && (
+							<span> ({post.categories.nodes.map(cat => cat.name).join(', ')})</span>
+						)}
 					</li>
 				))}
 			</ul>
 		) : (
-			<p>No posts found. Please add some posts in your WordPress CMS.</p>
+			<p>No posts found. Please add some posts in your WordPress CMS with the category "BAM Team Services Insights".</p>
 		)}
 	</body>
 </html>
