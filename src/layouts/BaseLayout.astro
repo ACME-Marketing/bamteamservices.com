@@ -33,7 +33,9 @@ const { title } = Astro.props;
                 </nav>
             </div>
         </header>
-        <slot />
+        <main class="container mx-auto px-4 py-12">
+            <slot />
+        </main>
         <footer class="bg-gray-800 text-white py-8 mt-12">
             <div class="container mx-auto px-4 text-center">
                 <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8 mb-4">
