@@ -4,13 +4,25 @@ import { graphQLClient, gql } from '../lib/graphql';
 
 const GET_BAMTEAMSERVICES_POSTS = gql`
   query GetBamteamservicesPosts {
-    posts(where: { tagIn: ["bamteam", "all"] }) {
+    posts(where: { tagSlugIn: ["bamteam", "all"] }) {
       nodes {
         title
         uri
+        content
+        featuredImage {
+          node {
+            sourceUrl
+            altText
+            mediaDetails {
+              width
+              height
+            }
+          }
+        }
         tags {
           nodes {
             name
+            slug
           }
         }
       }
@@ -34,13 +46,19 @@ try {
 
 	<main class="container">
 		{posts.length > 0 ? (
-			<ul>
+			<ul class="post-list">
 				{posts.map((post) => (
-					<li>
-						<a href={post.uri}>{post.title}</a>
-						{post.tags && post.tags.nodes.length > 0 && (
-							<span> ({post.tags.nodes.map(tag => tag.name).join(', ')})</span>
+					<li class="post-card">
+						{post.featuredImage && post.featuredImage.node && (
+							<img src={post.featuredImage.node.sourceUrl} alt={post.featuredImage.node.altText || post.title} width={post.featuredImage.node.mediaDetails.width} height={post.featuredImage.node.mediaDetails.height} class="post-image" />
 						)}
+						<div class="post-content">
+							<a href={post.uri}><h2>{post.title}</h2></a>
+							{post.tags && post.tags.nodes.length > 0 && (
+								<p class="post-tags">Tags: {post.tags.nodes.map(tag => tag.name).join(', ')}</p>
+							)}
+							<div class="post-body" set:html={post.content} />
+						</div>
 					</li>
 				))}
 			</ul>
