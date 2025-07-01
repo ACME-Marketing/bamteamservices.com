@@ -44,6 +44,21 @@ try {
 ---
 
 <BaseLayout title={site}>
+  <header class="bg-blue-800 text-white py-4 shadow-md">
+    <div class="container mx-auto flex flex-col md:flex-row justify-between items-center px-4">
+      <h1 class="text-3xl font-extrabold mb-2 md:mb-0">
+        <a href="/" class="hover:text-red-400">{site}</a>
+      </h1>
+      <nav>
+        <ul class="flex flex-wrap justify-center space-x-4 text-lg">
+          <li><a href="#" class="hover:text-red-400 transition duration-300">Home</a></li>
+          <li><a href="#" class="hover:text-red-400 transition duration-300">Services</a></li>
+          <li><a href="#" class="hover:text-red-400 transition duration-300">Blog</a></li>
+          <li><a href="#" class="hover:text-red-400 transition duration-300">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
   <main class="container mx-auto px-4 py-12">
     <h2 class="text-4xl font-bold text-center mb-10 text-gray-800">Latest Insights</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
