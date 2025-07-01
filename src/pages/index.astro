@@ -4,11 +4,11 @@ import { graphQLClient, gql } from '../lib/graphql';
 
 const GET_BAMTEAMSERVICES_POSTS = gql`
   query GetBamteamservicesPosts {
-    posts(where: { categoryNameIn: ["bam-team", "all"] }) {
+    posts(where: { tagIn: ["bamteam", "all"] }) {
       nodes {
         title
         uri
-        categories {
+        tags {
           nodes {
             name
           }
@@ -38,14 +38,14 @@ try {
 				{posts.map((post) => (
 					<li>
 						<a href={post.uri}>{post.title}</a>
-						{post.categories && post.categories.nodes.length > 0 && (
-							<span> ({post.categories.nodes.map(cat => cat.name).join(', ')})</span>
+						{post.tags && post.tags.nodes.length > 0 && (
+							<span> ({post.tags.nodes.map(tag => tag.name).join(', ')})</span>
 						)}
 					</li>
 				))}
 			</ul>
 		) : (
-			<p>No posts found. Please add some posts in your WordPress CMS with the category "BAM Team Services Insights" or "all".</p>
+			<p>No posts found. Please add some posts in your WordPress CMS with the tag "bamteam" or "all".</p>
 		)}
 	</main>
 
