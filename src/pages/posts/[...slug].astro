@@ -1,0 +1,140 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { graphQLClient, gql } from '../../lib/graphql';
+
+export async function getStaticPaths() {
+  const GET_ALL_POST_SLUGS = gql`
+    query GetAllPostSlugs {
+      posts {
+        nodes {
+          uri
+        }
+      }
+    }
+  `;
+  const data = await graphQLClient.request(GET_ALL_POST_SLUGS);
+  return data.posts.nodes.map((post) => ({
+    params: { slug: post.uri.replace(/\/$/, '') },
+  }));
+}
+
+const GET_SINGLE_POST = gql`
+  query GetSinglePost($uri: String!) {
+    postBy(uri: $uri) {
+      title
+      content
+      featuredImage {
+        node {
+          sourceUrl
+          altText
+          mediaDetails {
+            width
+            height
+          }
+        }
+      }
+      tags {
+        nodes {
+          name
+          slug
+        }
+      }
+    }
+  }
+`;
+
+const { slug } = Astro.params;
+const uri = `/${slug}/`;
+
+let post = null;
+let allPosts = [];
+
+try {
+  const data = await graphQLClient.request(GET_SINGLE_POST, { uri });
+  post = data.postBy;
+
+  // Fetch all posts to determine previous/next and sidebar
+  const GET_ALL_POSTS = gql`
+    query GetAllPosts {
+      posts(first: 100) { # Fetch a reasonable number of posts
+        nodes {
+          title
+          uri
+          tags {
+            nodes {
+              slug
+            }
+          }
+        }
+      }
+    }
+  `;
+  const allPostsData = await graphQLClient.request(GET_ALL_POSTS);
+  allPosts = allPostsData.posts.nodes;
+
+} catch (error) {
+  console.error("Error fetching post or all posts:", error);
+}
+
+if (!post) {
+  return Astro.redirect('/404'); // Redirect to a 404 page if post not found
+}
+
+// Logic for previous/next posts and sidebar (to be implemented)
+const currentPostIndex = allPosts.findIndex(p => p.uri === uri);
+const prevPost = currentPostIndex > 0 ? allPosts[currentPostIndex - 1] : null;
+const nextPost = currentPostIndex < allPosts.length - 1 ? allPosts[currentPostIndex + 1] : null;
+
+const sidebarPosts = allPosts.filter(p => p.uri !== uri).slice(0, 5); // Get 5 other posts for sidebar
+---
+
+<BaseLayout title={post.title}>
+  <div class="container mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
+    <!-- Main Content Area -->
+    <main class="lg:w-3/4">
+      <article class="bg-white rounded-lg shadow-lg p-8">
+        <h1 class="text-4xl font-extrabold mb-4">{post.title}</h1>
+        {post.featuredImage && post.featuredImage.node && (
+          <img 
+            src={post.featuredImage.node.sourceUrl} 
+            alt={post.featuredImage.node.altText || post.title} 
+            width={post.featuredImage.node.mediaDetails.width} 
+            height={post.featuredImage.node.mediaDetails.height} 
+            class="w-full h-64 object-cover rounded-md mb-6"
+          />
+        )}
+        <div class="prose max-w-none" set:html={post.content} />
+      </article>
+
+      <!-- Previous/Next Navigation -->
+      <nav class="flex justify-between mt-8">
+        {prevPost && (
+          <a href={`/posts/${prevPost.uri.replace(/\/$/, '')}`} class="flex-1 p-4 bg-blue-100 text-blue-800 rounded-lg hover:bg-blue-200 transition duration-300 mr-2 text-center relative overflow-hidden group">
+            <div class="absolute inset-0 bg-black opacity-50 group-hover:opacity-20 transition-opacity duration-300"></div>
+            <p class="relative z-10 text-sm">Previous Post</p>
+            <h3 class="relative z-10 text-lg font-semibold">{prevPost.title}</h3>
+          </a>
+        )}
+        {nextPost && (
+          <a href={`/posts/${nextPost.uri.replace(/\/$/, '')}`} class="flex-1 p-4 bg-blue-100 text-blue-800 rounded-lg hover:bg-blue-200 transition duration-300 ml-2 text-center relative overflow-hidden group">
+            <div class="absolute inset-0 bg-black opacity-50 group-hover:opacity-20 transition-opacity duration-300"></div>
+            <p class="relative z-10 text-sm">Next Post</p>
+            <h3 class="relative z-10 text-lg font-semibold">{nextPost.title}</h3>
+          </a>
+        )}
+      </nav>
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="lg:w-1/4 bg-white rounded-lg shadow-lg p-6">
+      <h3 class="text-2xl font-bold mb-4">Recent Posts</h3>
+      <ul>
+        {sidebarPosts.map((p) => (
+          <li class="mb-2">
+            <a href={`/posts/${p.uri.replace(/\/$/, '')}`} class="text-blue-600 hover:underline">{p.title}</a>
+          </li>
+        ))}
+      </ul>
+    </aside>
+  </div>
+</BaseLayout>

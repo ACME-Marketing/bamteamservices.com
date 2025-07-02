@@ -1,7 +1,6 @@
-
 ---
 interface Props {
-    title: string;
+	title: string;
 }
 
 const { title } = Astro.props;
@@ -9,43 +8,27 @@ const { title } = Astro.props;
 
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="description" content="Astro description" />
-        <meta name="viewport" content="width=device-width" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <meta name="generator" content={Astro.generator} />
-        <title>{title}</title>
-    </head>
-    <body class="font-sans text-gray-800 bg-gray-100">
-        <header class="bg-blue-800 text-white py-4 shadow-md">
-            <div class="container mx-auto flex flex-col md:flex-row justify-between items-center px-4">
-                <h1 class="text-3xl font-extrabold mb-2 md:mb-0">
-                    <a href="/" class="hover:text-red-400">bamteamservices.com</a>
-                </h1>
-                <nav>
-                    <ul class="flex flex-wrap justify-center space-x-4 text-lg">
-                        <li><a href="#" class="hover:text-red-400 transition duration-300">Home</a></li>
-                        <li><a href="#" class="hover:text-red-400 transition duration-300">Services</a></li>
-                        <li><a href="#" class="hover:text-red-400 transition duration-300">Blog</a></li>
-                        <li><a href="#" class="hover:text-red-400 transition duration-300">Contact</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </header>
-        <main class="container mx-auto px-4 py-12">
-            <slot />
-        </main>
-        <footer class="bg-gray-800 text-white py-8 mt-12">
-            <div class="container mx-auto px-4 text-center">
-                <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8 mb-4">
-                    <a href="/about" class="hover:underline">About</a>
-                    <a href="/privacy" class="hover:underline">Privacy</a>
-                </div>
-                <p class="text-sm mb-2">Contact Information for bamteamservices.com</p>
-                <p class="text-sm mb-2">Email: info@bamteamservices.com</p>
-                <p class="text-sm">&copy; {new Date().getFullYear()} bamteamservices.com. All rights reserved.</p>
-            </div>
-        </footer>
-    </body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		
+	</head>
+	<body>
+		<slot />
+	<footer class="bg-gray-800 text-white py-8 mt-12">
+			<div class="container mx-auto px-4 text-center">
+				<div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8 mb-4">
+					<a href="/about" class="hover:underline">About</a>
+					<a href="/privacy" class="hover:underline">Privacy</a>
+				</div>
+				<p class="text-sm mb-2">123 Marketing Lane, Suite 456, Anytown, USA 12345</p>
+				<p class="text-sm mb-2">Email: info@bamteamservices.com</p>
+				<p class="text-sm">&copy; {new Date().getFullYear()} BAM Team Services. All rights reserved.</p>
+			</div>
+		</footer>
+	</body>
 </html>

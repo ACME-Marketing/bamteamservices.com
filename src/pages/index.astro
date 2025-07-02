@@ -2,85 +2,93 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { graphQLClient, gql } from '../lib/graphql';
 
-const site = "bamteamservices.com";
-
-// Get posts for this site
-const GET_POSTS = gql`query GetPosts($siteTags: [String]) {
-  posts(where: { tagSlugIn: $siteTags }) {
-    nodes {
-      title
-      uri
-      content
-      featuredImage {
-        node {
-          sourceUrl
-          altText
-          mediaDetails {
-            width
-            height
+const GET_POSTS = gql`
+  query GetPosts {
+    posts(where: { tagSlugIn: ["bamteam", "all"] }) {
+      nodes {
+        title
+        uri
+        content
+        featuredImage {
+          node {
+            sourceUrl
+            altText
+            mediaDetails {
+              width
+              height
+            }
           }
         }
-      }
-      tags {
-        nodes {
-          name
-          slug
+        tags {
+          nodes {
+            name
+            slug
+          }
         }
       }
     }
   }
-}
-`; // Added closing backtick
+`;
 
 let posts = [];
 try {
-  const data = await graphQLClient.request(GET_POSTS, {
-    siteTags: [site, "all"]
-  });
+  const data = await graphQLClient.request(GET_POSTS);
   posts = data.posts.nodes;
 } catch (error) {
   console.error("Error fetching posts:", error);
 }
 ---
 
-<BaseLayout title={site}>
-  <header class="bg-blue-800 text-white py-4 shadow-md">
-    <div class="container mx-auto flex flex-col md:flex-row justify-between items-center px-4">
-      <h1 class="text-3xl font-extrabold mb-2 md:mb-0">
-        <a href="/" class="hover:text-red-400">{site}</a>
-      </h1>
-      <nav>
-        <ul class="flex flex-wrap justify-center space-x-4 text-lg">
-          <li><a href="#" class="hover:text-red-400 transition duration-300">Home</a></li>
-          <li><a href="#" class="hover:text-red-400 transition duration-300">Services</a></li>
-          <li><a href="#" class="hover:text-red-400 transition duration-300">Blog</a></li>
-          <li><a href="#" class="hover:text-red-400 transition duration-300">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-  <main class="container mx-auto px-4 py-12">
-    <h2 class="text-4xl font-bold text-center mb-10 text-gray-800">Latest Insights</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-      {posts.map(post => (
-        <div class="bg-white rounded-xl shadow-xl overflow-hidden transform hover:scale-105 transition duration-300 flex flex-col" key={post.uri}>
-          {post.featuredImage?.node &&
-            <img src={post.featuredImage.node.sourceUrl} alt={post.featuredImage.node.altText} class="w-full h-56 object-cover" />
-          }
-          <div class="p-7 flex flex-col flex-grow">
-            <h3 class="text-2xl font-semibold mb-3 leading-tight">
-              <a href={post.uri} class="text-gray-900 hover:text-blue-600 transition duration-300">{post.title}</a>
-            </h3>
-            <p class="text-gray-600 text-sm mb-4">
-              Tags: {post.tags.nodes.map(tag => tag.name).join(', ')}
-            </p>
-            <div class="text-gray-700 text-base mb-5 flex-grow">
-              {post.content}
-            </div>
-            <a href={post.uri} class="mt-auto inline-block bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-300 text-center">Read More</a>
-          </div>
-        </div>
-      ))}
-    </div>
-  </main>
+<BaseLayout title="BAM Team Services">
+	<header class="bg-blue-800 text-white py-4 shadow-md">
+		<div class="container mx-auto flex flex-col md:flex-row justify-between items-center px-4">
+			<h1 class="text-3xl font-extrabold mb-2 md:mb-0"><a href="/" class="hover:text-red-400">BAM Team Services</a></h1>
+			<nav>
+				<ul class="flex space-x-4">
+					<li><a href="#" class="hover:text-red-400">Home</a></li>
+					<li><a href="#" class="hover:text-red-400">Services</a></li>
+					<li><a href="#" class="hover:text-red-400">Blog</a></li>
+					<li><a href="#" class="hover:text-red-400">Contact</a></li>
+				</ul>
+			</nav>
+		</div>
+	</header>
+
+	<section class="relative bg-red-600 text-white py-20 text-center overflow-hidden">
+		<div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('/hero-background.svg');"></div>
+		<div class="container mx-auto relative z-10 px-4">
+			<h2 class="text-6xl font-extrabold mb-6 leading-tight drop-shadow-lg">BAM Team Services</h2>
+			<p class="text-2xl mb-10 font-light">Strategic Solutions for Your Business</p>
+			<a href="#" class="bg-white text-blue-800 hover:bg-gray-200 font-bold py-3 px-8 rounded-full transition duration-300">Get a Free Consultation</a>
+		</div>
+	</section>
+
+	<main class="container mx-auto px-4 py-8">
+		<h2 class="text-3xl font-bold text-center mb-8">Latest Insights</h2>
+		{posts.length > 0 ? (
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+				{posts.map((post) => (
+					<div class="bg-white rounded-lg shadow-lg overflow-hidden">
+						{post.featuredImage && post.featuredImage.node && (
+							<img src={post.featuredImage.node.sourceUrl} alt={post.featuredImage.node.altText || post.title} width={post.featuredImage.node.mediaDetails.width} height={post.featuredImage.node.mediaDetails.height} class="w-full h-48 object-cover" />
+						)}
+						<div class="p-6">
+							<h3 class="text-xl font-semibold mb-2"><a href={`/posts/${post.uri}`}>{post.title}</a></h3>
+							{post.tags && post.tags.nodes.length > 0 && (
+								<p class="text-gray-600 text-sm mb-4">Tags: {post.tags.nodes.map(tag => tag.name).join(', ')}</p>
+							)}
+							<div class="text-gray-700 mb-4" set:html={post.content.substring(0, 150) + '...'} />
+							<a href={`/posts/${post.uri}`} class="text-blue-600 hover:underline">Read More</a>
+						</div>
+					</div>
+				))}
+			</div>
+		) : (
+			<p class="text-center text-gray-600 text-xl py-10">No posts found. Please add some posts in your WordPress CMS with the tag "bamteam" or "all".</p>
+		)}
+	</main>
+
+	<footer>
+		<p>&copy; {new Date().getFullYear()} ACME Marketing. All rights reserved.</p>
+	</footer>
 </BaseLayout>
