@@ -4,7 +4,7 @@ import { graphQLClient, gql } from '../lib/graphql';
 
 const GET_POSTS = gql`
   query GetPosts {
-    posts(where: { tagSlugIn: ["bamteamservices", "all"] }) {
+    posts(where: { tagSlugIn: ["bamteam", "all"] }) {
       nodes {
         title
         uri
