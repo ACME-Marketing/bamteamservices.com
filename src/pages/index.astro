@@ -3,142 +3,176 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="Home">
-	<section class="relative bg-gradient-to-b from-gray-50 to-white py-20 md:py-32 overflow-hidden">
+	<section class="relative bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 py-20 md:py-32 overflow-hidden">
 		<div class="absolute inset-0 overflow-hidden">
-			<svg class="absolute left-0 top-0 h-full w-1/2 opacity-5" viewBox="0 0 200 200" fill="currentColor">
+			<div class="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-transparent to-emerald-600/20"></div>
+			<svg class="absolute left-0 top-0 h-full w-1/2 opacity-10 text-blue-400" viewBox="0 0 200 200" fill="currentColor">
 				<circle cx="100" cy="100" r="80" />
-				<circle cx="100" cy="100" r="60" fill="white" />
+				<circle cx="100" cy="100" r="60" fill="none" stroke="currentColor" stroke-width="2" />
 				<circle cx="100" cy="100" r="40" />
 			</svg>
-			<svg class="absolute right-0 bottom-0 h-full w-1/2 opacity-5" viewBox="0 0 200 200" fill="currentColor">
+			<svg class="absolute right-0 bottom-0 h-full w-1/2 opacity-10 text-emerald-400" viewBox="0 0 200 200" fill="currentColor">
 				<rect x="40" y="40" width="120" height="120" />
-				<rect x="60" y="60" width="80" height="80" fill="white" />
+				<rect x="60" y="60" width="80" height="80" fill="none" stroke="currentColor" stroke-width="2" />
 			</svg>
+			<div class="absolute top-20 left-1/4 w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+			<div class="absolute bottom-32 right-1/3 w-3 h-3 bg-emerald-400 rounded-full animate-pulse" style="animation-delay: 1s;"></div>
+			<div class="absolute top-1/3 right-1/4 w-1 h-1 bg-slate-400 rounded-full animate-pulse" style="animation-delay: 2s;"></div>
 		</div>
 		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 			<div class="text-center">
-				<h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-					Technology and Business Process Whisperer
+				<h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+					<span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-white to-emerald-400">
+						Technology and Business Process
+					</span>
+					<br />
+					<span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-400 animate-pulse">
+						Whisperer
+					</span>
 				</h1>
-				<p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
-					BAM Team Services LLC delivers transformative technology solutions and strategic business consulting.
+				<p class="text-xl md:text-2xl text-slate-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+					BAM Team Services LLC delivers <span class="text-blue-400 font-semibold">transformative technology solutions</span> and <span class="text-emerald-400 font-semibold">strategic business consulting</span>.
 				</p>
-				<p class="text-lg text-gray-600 mb-12 max-w-2xl mx-auto">
+				<p class="text-lg text-slate-400 mb-12 max-w-2xl mx-auto font-medium tracking-wide">
 					Technology and Change for Good
 				</p>
-				<a href="/contact" class="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 transition-colors">
-					Start a Conversation
-				</a>
+				<div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+					<a href="/contact" class="group inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-500 hover:to-emerald-500 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-xl hover:shadow-blue-500/25">
+						<span>Start a Conversation</span>
+						<svg class="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+						</svg>
+					</a>
+					<a href="/services" class="inline-flex items-center px-8 py-4 border-2 border-slate-400 text-slate-300 hover:text-white hover:border-blue-400 font-semibold rounded-lg transition-all duration-300 hover:bg-slate-800/50">
+						View Our Services
+					</a>
+				</div>
 			</div>
 		</div>
 	</section>
 
-	<section class="py-16 md:py-24">
+	<section class="py-16 md:py-24 bg-gradient-to-b from-white to-slate-50">
 		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-			<div class="text-center mb-12">
-				<h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">How We Help</h2>
-				<p class="text-lg text-gray-600 max-w-2xl mx-auto">
+			<div class="text-center mb-16">
+				<h2 class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-700 mb-6">How We Help</h2>
+				<p class="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
 					With decades of experience in technology innovation and business transformation, we guide organizations through complex challenges.
 				</p>
 			</div>
 			
 			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-				<div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100">
-					<div class="w-12 h-12 bg-gray-100 rounded-lg mb-4 flex items-center justify-center">
-						<svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<div class="group bg-gradient-to-br from-blue-50 to-blue-100 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-blue-200 hover:border-blue-300 transform hover:-translate-y-2">
+					<div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl mb-6 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+						<svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
 						</svg>
 					</div>
-					<h3 class="text-xl font-semibold text-gray-900 mb-2">Business Consulting</h3>
-					<p class="text-gray-600">Strategic guidance for organizational transformation and growth.</p>
+					<h3 class="text-xl font-bold text-slate-900 mb-3">Business Consulting</h3>
+					<p class="text-slate-700 leading-relaxed">Strategic guidance for organizational transformation and growth.</p>
 				</div>
 
-				<div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100">
-					<div class="w-12 h-12 bg-gray-100 rounded-lg mb-4 flex items-center justify-center">
-						<svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<div class="group bg-gradient-to-br from-emerald-50 to-emerald-100 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-emerald-200 hover:border-emerald-300 transform hover:-translate-y-2">
+					<div class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl mb-6 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+						<svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
 						</svg>
 					</div>
-					<h3 class="text-xl font-semibold text-gray-900 mb-2">Startup Advisory</h3>
-					<p class="text-gray-600">Experienced mentorship for emerging companies and entrepreneurs.</p>
+					<h3 class="text-xl font-bold text-slate-900 mb-3">Startup Advisory</h3>
+					<p class="text-slate-700 leading-relaxed">Experienced mentorship for emerging companies and entrepreneurs.</p>
 				</div>
 
-				<div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100">
-					<div class="w-12 h-12 bg-gray-100 rounded-lg mb-4 flex items-center justify-center">
-						<svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<div class="group bg-gradient-to-br from-purple-50 to-purple-100 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-purple-200 hover:border-purple-300 transform hover:-translate-y-2">
+					<div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl mb-6 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+						<svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
 						</svg>
 					</div>
-					<h3 class="text-xl font-semibold text-gray-900 mb-2">Technology Solutions</h3>
-					<p class="text-gray-600">Innovative technical architectures and implementation strategies.</p>
+					<h3 class="text-xl font-bold text-slate-900 mb-3">Technology Solutions</h3>
+					<p class="text-slate-700 leading-relaxed">Innovative technical architectures and implementation strategies.</p>
 				</div>
 
-				<div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100">
-					<div class="w-12 h-12 bg-gray-100 rounded-lg mb-4 flex items-center justify-center">
-						<svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<div class="group bg-gradient-to-br from-orange-50 to-orange-100 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-orange-200 hover:border-orange-300 transform hover:-translate-y-2">
+					<div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl mb-6 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+						<svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
 						</svg>
 					</div>
-					<h3 class="text-xl font-semibold text-gray-900 mb-2">Product & Marketing</h3>
-					<p class="text-gray-600">Strategic product development and go-to-market expertise.</p>
+					<h3 class="text-xl font-bold text-slate-900 mb-3">Product & Marketing</h3>
+					<p class="text-slate-700 leading-relaxed">Strategic product development and go-to-market expertise.</p>
 				</div>
 
-				<div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100">
-					<div class="w-12 h-12 bg-gray-100 rounded-lg mb-4 flex items-center justify-center">
-						<svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<div class="group bg-gradient-to-br from-red-50 to-red-100 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-red-200 hover:border-red-300 transform hover:-translate-y-2">
+					<div class="w-16 h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-xl mb-6 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+						<svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
 						</svg>
 					</div>
-					<h3 class="text-xl font-semibold text-gray-900 mb-2">Project Recovery</h3>
-					<p class="text-gray-600">Expert intervention for stalled initiatives and complex challenges.</p>
+					<h3 class="text-xl font-bold text-slate-900 mb-3">Project Recovery</h3>
+					<p class="text-slate-700 leading-relaxed">Expert intervention for stalled initiatives and complex challenges.</p>
 				</div>
 
-				<div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100">
-					<div class="w-12 h-12 bg-gray-100 rounded-lg mb-4 flex items-center justify-center">
-						<svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<div class="group bg-gradient-to-br from-indigo-50 to-indigo-100 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-indigo-200 hover:border-indigo-300 transform hover:-translate-y-2">
+					<div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-xl mb-6 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+						<svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
 						</svg>
 					</div>
-					<h3 class="text-xl font-semibold text-gray-900 mb-2">Executive Coaching</h3>
-					<p class="text-gray-600">Leadership development and strategic guidance for executives.</p>
+					<h3 class="text-xl font-bold text-slate-900 mb-3">Executive Coaching</h3>
+					<p class="text-slate-700 leading-relaxed">Leadership development and strategic guidance for executives.</p>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<section class="py-16 md:py-24 bg-gray-50">
-		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-			<div class="text-center mb-12">
-				<h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our Portfolio</h2>
-				<p class="text-lg text-gray-600 max-w-2xl mx-auto">
+	<section class="py-16 md:py-24 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
+		<div class="absolute inset-0 bg-gradient-to-r from-blue-900/30 via-transparent to-emerald-900/30"></div>
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+			<div class="text-center mb-16">
+				<h2 class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400 mb-6">Our Portfolio</h2>
+				<p class="text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
 					Supporting innovative ventures that drive positive change across industries.
 				</p>
 			</div>
 			
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-				<a href="https://acmemarketing.us" target="_blank" rel="noopener noreferrer" class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 group">
-					<h3 class="text-lg font-semibold text-gray-900 mb-2 group-hover:text-gray-700">acmemarketing.us</h3>
-					<p class="text-gray-600">Strategic marketing solutions</p>
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+				<a href="https://acmemarketing.us" target="_blank" rel="noopener noreferrer" class="group bg-gradient-to-br from-blue-900/50 to-blue-800/50 backdrop-blur-sm p-8 rounded-xl border border-blue-500/30 hover:border-blue-400/50 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20 transform hover:-translate-y-2">
+					<div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg mb-4 flex items-center justify-center text-white font-bold text-lg group-hover:scale-110 transition-transform duration-300">
+						AM
+					</div>
+					<h3 class="text-xl font-bold text-white mb-3 group-hover:text-blue-300 transition-colors">acmemarketing.us</h3>
+					<p class="text-slate-300 leading-relaxed">Strategic marketing solutions that drive growth and engagement</p>
 				</a>
 				
-				<a href="https://bemorefree.com" target="_blank" rel="noopener noreferrer" class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 group">
-					<h3 class="text-lg font-semibold text-gray-900 mb-2 group-hover:text-gray-700">bemorefree.com</h3>
-					<p class="text-gray-600">Empowerment and freedom initiatives</p>
+				<a href="https://bemorefree.com" target="_blank" rel="noopener noreferrer" class="group bg-gradient-to-br from-emerald-900/50 to-emerald-800/50 backdrop-blur-sm p-8 rounded-xl border border-emerald-500/30 hover:border-emerald-400/50 transition-all duration-300 hover:shadow-2xl hover:shadow-emerald-500/20 transform hover:-translate-y-2">
+					<div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg mb-4 flex items-center justify-center text-white font-bold text-lg group-hover:scale-110 transition-transform duration-300">
+						BF
+					</div>
+					<h3 class="text-xl font-bold text-white mb-3 group-hover:text-emerald-300 transition-colors">bemorefree.com</h3>
+					<p class="text-slate-300 leading-relaxed">Empowerment and freedom initiatives for personal growth</p>
 				</a>
 				
-				<a href="https://disendarkenment.com" target="_blank" rel="noopener noreferrer" class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 group">
-					<h3 class="text-lg font-semibold text-gray-900 mb-2 group-hover:text-gray-700">disendarkenment.com</h3>
-					<p class="text-gray-600">Knowledge and enlightenment platform</p>
+				<a href="https://disendarkenment.com" target="_blank" rel="noopener noreferrer" class="group bg-gradient-to-br from-purple-900/50 to-purple-800/50 backdrop-blur-sm p-8 rounded-xl border border-purple-500/30 hover:border-purple-400/50 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/20 transform hover:-translate-y-2">
+					<div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg mb-4 flex items-center justify-center text-white font-bold text-lg group-hover:scale-110 transition-transform duration-300">
+						DE
+					</div>
+					<h3 class="text-xl font-bold text-white mb-3 group-hover:text-purple-300 transition-colors">disendarkenment.com</h3>
+					<p class="text-slate-300 leading-relaxed">Knowledge and enlightenment platform for critical thinking</p>
 				</a>
 				
-				<a href="https://healthcareactivist.org" target="_blank" rel="noopener noreferrer" class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 group">
-					<h3 class="text-lg font-semibold text-gray-900 mb-2 group-hover:text-gray-700">healthcareactivist.org</h3>
-					<p class="text-gray-600">Healthcare advocacy and reform</p>
+				<a href="https://healthcareactivist.org" target="_blank" rel="noopener noreferrer" class="group bg-gradient-to-br from-red-900/50 to-red-800/50 backdrop-blur-sm p-8 rounded-xl border border-red-500/30 hover:border-red-400/50 transition-all duration-300 hover:shadow-2xl hover:shadow-red-500/20 transform hover:-translate-y-2">
+					<div class="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-lg mb-4 flex items-center justify-center text-white font-bold text-lg group-hover:scale-110 transition-transform duration-300">
+						HA
+					</div>
+					<h3 class="text-xl font-bold text-white mb-3 group-hover:text-red-300 transition-colors">healthcareactivist.org</h3>
+					<p class="text-slate-300 leading-relaxed">Healthcare advocacy and reform initiatives</p>
 				</a>
 				
-				<a href="https://mindlooker.com" target="_blank" rel="noopener noreferrer" class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 group">
-					<h3 class="text-lg font-semibold text-gray-900 mb-2 group-hover:text-gray-700">mindlooker.com</h3>
-					<p class="text-gray-600">Mental wellness and insight tools</p>
+				<a href="https://mindlooker.com" target="_blank" rel="noopener noreferrer" class="group bg-gradient-to-br from-cyan-900/50 to-cyan-800/50 backdrop-blur-sm p-8 rounded-xl border border-cyan-500/30 hover:border-cyan-400/50 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/20 transform hover:-translate-y-2">
+					<div class="w-12 h-12 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-lg mb-4 flex items-center justify-center text-white font-bold text-lg group-hover:scale-110 transition-transform duration-300">
+						ML
+					</div>
+					<h3 class="text-xl font-bold text-white mb-3 group-hover:text-cyan-300 transition-colors">mindlooker.com</h3>
+					<p class="text-slate-300 leading-relaxed">Mental wellness and insight tools for personal development</p>
 				</a>
 			</div>
 		</div>
