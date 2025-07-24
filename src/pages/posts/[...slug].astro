@@ -128,7 +128,59 @@ if (!post) {
               )}
             </div>
             
-            <div set:html={post.content} />
+            <div class="wordpress-content" set:html={post.content} />
+            
+            <style>
+              /* Restore natural spacing for WordPress content that Tailwind reset */
+              .wordpress-content p {
+                margin-bottom: 1em;
+                line-height: 1.6;
+              }
+              
+              .wordpress-content h1,
+              .wordpress-content h2,
+              .wordpress-content h3,
+              .wordpress-content h4,
+              .wordpress-content h5,
+              .wordpress-content h6,
+              .wordpress-content .wp-block-heading {
+                margin-top: 1.5em;
+                margin-bottom: 0.5em;
+                font-weight: bold;
+                line-height: 1.3;
+              }
+              
+              .wordpress-content h1, .wordpress-content .wp-block-heading:first-child { font-size: 2em; }
+              .wordpress-content h2 { font-size: 1.75em; }
+              .wordpress-content h3 { font-size: 1.5em; }
+              .wordpress-content h4 { font-size: 1.25em; }
+              
+              .wordpress-content ul,
+              .wordpress-content ol {
+                margin-bottom: 1em;
+                padding-left: 2em;
+              }
+              
+              .wordpress-content li {
+                margin-bottom: 0.25em;
+              }
+              
+              .wordpress-content img {
+                max-width: 100%;
+                height: auto;
+                margin: 1.5em 0;
+              }
+              
+              .wordpress-content figure {
+                margin: 1.5em 0;
+              }
+              
+              .wordpress-content blockquote {
+                margin: 1.5em 0;
+                padding-left: 1em;
+                border-left: 4px solid #e5e7eb;
+              }
+            </style>
           </div>
         </article>
 
