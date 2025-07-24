@@ -1,94 +1,146 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { graphQLClient, gql } from '../lib/graphql';
-
-const GET_POSTS = gql`
-  query GetPosts {
-    posts(where: { tagSlugIn: ["bamteam", "all"] }) {
-      nodes {
-        title
-        uri
-        content
-        featuredImage {
-          node {
-            sourceUrl
-            altText
-            mediaDetails {
-              width
-              height
-            }
-          }
-        }
-        tags {
-          nodes {
-            name
-            slug
-          }
-        }
-      }
-    }
-  }
-`;
-
-let posts = [];
-try {
-  const data = await graphQLClient.request(GET_POSTS);
-  posts = data.posts.nodes;
-} catch (error) {
-  console.error("Error fetching posts:", error);
-}
 ---
 
-<BaseLayout title="BAM Team Services">
-	<header class="bg-blue-800 text-white py-4 shadow-md">
-		<div class="container mx-auto flex flex-col md:flex-row justify-between items-center px-4">
-			<h1 class="text-3xl font-extrabold mb-2 md:mb-0"><a href="/" class="hover:text-red-400">BAM Team Services</a></h1>
-			<nav>
-				<ul class="flex space-x-4">
-					<li><a href="#" class="hover:text-red-400">Home</a></li>
-					<li><a href="#" class="hover:text-red-400">Services</a></li>
-					<li><a href="#" class="hover:text-red-400">Blog</a></li>
-					<li><a href="#" class="hover:text-red-400">Contact</a></li>
-				</ul>
-			</nav>
+<BaseLayout title="Home">
+	<section class="relative bg-gradient-to-b from-gray-50 to-white py-20 md:py-32 overflow-hidden">
+		<div class="absolute inset-0 overflow-hidden">
+			<svg class="absolute left-0 top-0 h-full w-1/2 opacity-5" viewBox="0 0 200 200" fill="currentColor">
+				<circle cx="100" cy="100" r="80" />
+				<circle cx="100" cy="100" r="60" fill="white" />
+				<circle cx="100" cy="100" r="40" />
+			</svg>
+			<svg class="absolute right-0 bottom-0 h-full w-1/2 opacity-5" viewBox="0 0 200 200" fill="currentColor">
+				<rect x="40" y="40" width="120" height="120" />
+				<rect x="60" y="60" width="80" height="80" fill="white" />
+			</svg>
 		</div>
-	</header>
-
-	<section class="relative bg-red-600 text-white py-20 text-center overflow-hidden">
-		<div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('/hero-background.svg');"></div>
-		<div class="container mx-auto relative z-10 px-4">
-			<h2 class="text-6xl font-extrabold mb-6 leading-tight drop-shadow-lg">BAM Team Services</h2>
-			<p class="text-2xl mb-10 font-light">Strategic Solutions for Your Business</p>
-			<a href="#" class="bg-white text-blue-800 hover:bg-gray-200 font-bold py-3 px-8 rounded-full transition duration-300">Get a Free Consultation</a>
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+			<div class="text-center">
+				<h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+					Technology and Business Process Whisperer
+				</h1>
+				<p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
+					BAM Team Services LLC delivers transformative technology solutions and strategic business consulting.
+				</p>
+				<p class="text-lg text-gray-600 mb-12 max-w-2xl mx-auto">
+					Technology and Change for Good
+				</p>
+				<a href="/contact" class="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 transition-colors">
+					Start a Conversation
+				</a>
+			</div>
 		</div>
 	</section>
 
-	<main class="container mx-auto px-4 py-8">
-		<h2 class="text-3xl font-bold text-center mb-8">Latest Insights</h2>
-		{posts.length > 0 ? (
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-				{posts.map((post) => (
-					<div class="bg-white rounded-lg shadow-lg overflow-hidden">
-						{post.featuredImage && post.featuredImage.node && (
-							<img src={post.featuredImage.node.sourceUrl} alt={post.featuredImage.node.altText || post.title} width={post.featuredImage.node.mediaDetails.width} height={post.featuredImage.node.mediaDetails.height} class="w-full h-48 object-cover" />
-						)}
-						<div class="p-6">
-							<h3 class="text-xl font-semibold mb-2"><a href={`/posts/${post.uri}`}>{post.title}</a></h3>
-							{post.tags && post.tags.nodes.length > 0 && (
-								<p class="text-gray-600 text-sm mb-4">Tags: {post.tags.nodes.map(tag => tag.name).join(', ')}</p>
-							)}
-							<div class="text-gray-700 mb-4" set:html={post.content.substring(0, 150) + '...'} />
-							<a href={`/posts/${post.uri}`} class="text-blue-600 hover:underline">Read More</a>
-						</div>
-					</div>
-				))}
+	<section class="py-16 md:py-24">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+			<div class="text-center mb-12">
+				<h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">How We Help</h2>
+				<p class="text-lg text-gray-600 max-w-2xl mx-auto">
+					With decades of experience in technology innovation and business transformation, we guide organizations through complex challenges.
+				</p>
 			</div>
-		) : (
-			<p class="text-center text-gray-600 text-xl py-10">No posts found. Please add some posts in your WordPress CMS with the tag "bamteam" or "all".</p>
-		)}
-	</main>
+			
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+				<div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+					<div class="w-12 h-12 bg-gray-100 rounded-lg mb-4 flex items-center justify-center">
+						<svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+						</svg>
+					</div>
+					<h3 class="text-xl font-semibold text-gray-900 mb-2">Business Consulting</h3>
+					<p class="text-gray-600">Strategic guidance for organizational transformation and growth.</p>
+				</div>
 
-	<footer>
-		<p>&copy; {new Date().getFullYear()} ACME Marketing. All rights reserved.</p>
-	</footer>
+				<div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+					<div class="w-12 h-12 bg-gray-100 rounded-lg mb-4 flex items-center justify-center">
+						<svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+						</svg>
+					</div>
+					<h3 class="text-xl font-semibold text-gray-900 mb-2">Startup Advisory</h3>
+					<p class="text-gray-600">Experienced mentorship for emerging companies and entrepreneurs.</p>
+				</div>
+
+				<div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+					<div class="w-12 h-12 bg-gray-100 rounded-lg mb-4 flex items-center justify-center">
+						<svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+						</svg>
+					</div>
+					<h3 class="text-xl font-semibold text-gray-900 mb-2">Technology Solutions</h3>
+					<p class="text-gray-600">Innovative technical architectures and implementation strategies.</p>
+				</div>
+
+				<div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+					<div class="w-12 h-12 bg-gray-100 rounded-lg mb-4 flex items-center justify-center">
+						<svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+						</svg>
+					</div>
+					<h3 class="text-xl font-semibold text-gray-900 mb-2">Product & Marketing</h3>
+					<p class="text-gray-600">Strategic product development and go-to-market expertise.</p>
+				</div>
+
+				<div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+					<div class="w-12 h-12 bg-gray-100 rounded-lg mb-4 flex items-center justify-center">
+						<svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+						</svg>
+					</div>
+					<h3 class="text-xl font-semibold text-gray-900 mb-2">Project Recovery</h3>
+					<p class="text-gray-600">Expert intervention for stalled initiatives and complex challenges.</p>
+				</div>
+
+				<div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+					<div class="w-12 h-12 bg-gray-100 rounded-lg mb-4 flex items-center justify-center">
+						<svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+						</svg>
+					</div>
+					<h3 class="text-xl font-semibold text-gray-900 mb-2">Executive Coaching</h3>
+					<p class="text-gray-600">Leadership development and strategic guidance for executives.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="py-16 md:py-24 bg-gray-50">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+			<div class="text-center mb-12">
+				<h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our Portfolio</h2>
+				<p class="text-lg text-gray-600 max-w-2xl mx-auto">
+					Supporting innovative ventures that drive positive change across industries.
+				</p>
+			</div>
+			
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+				<a href="https://acmemarketing.us" target="_blank" rel="noopener noreferrer" class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 group">
+					<h3 class="text-lg font-semibold text-gray-900 mb-2 group-hover:text-gray-700">acmemarketing.us</h3>
+					<p class="text-gray-600">Strategic marketing solutions</p>
+				</a>
+				
+				<a href="https://bemorefree.com" target="_blank" rel="noopener noreferrer" class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 group">
+					<h3 class="text-lg font-semibold text-gray-900 mb-2 group-hover:text-gray-700">bemorefree.com</h3>
+					<p class="text-gray-600">Empowerment and freedom initiatives</p>
+				</a>
+				
+				<a href="https://disendarkenment.com" target="_blank" rel="noopener noreferrer" class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 group">
+					<h3 class="text-lg font-semibold text-gray-900 mb-2 group-hover:text-gray-700">disendarkenment.com</h3>
+					<p class="text-gray-600">Knowledge and enlightenment platform</p>
+				</a>
+				
+				<a href="https://healthcareactivist.org" target="_blank" rel="noopener noreferrer" class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 group">
+					<h3 class="text-lg font-semibold text-gray-900 mb-2 group-hover:text-gray-700">healthcareactivist.org</h3>
+					<p class="text-gray-600">Healthcare advocacy and reform</p>
+				</a>
+				
+				<a href="https://mindlooker.com" target="_blank" rel="noopener noreferrer" class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-100 group">
+					<h3 class="text-lg font-semibold text-gray-900 mb-2 group-hover:text-gray-700">mindlooker.com</h3>
+					<p class="text-gray-600">Mental wellness and insight tools</p>
+				</a>
+			</div>
+		</div>
+	</section>
 </BaseLayout>
