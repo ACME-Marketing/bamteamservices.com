@@ -1,94 +1,215 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { graphQLClient, gql } from '../lib/graphql';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import mnwLogo from "../assets/mnw-logo.svg";
+import logoWhite from "../assets/logo-header-white.svg";
+import { site, patents, timeline } from "../site";
 
-const GET_POSTS = gql`
-  query GetPosts {
-    posts(where: { tagSlugIn: ["bamteam", "all"] }) {
-      nodes {
-        title
-        uri
-        content
-        featuredImage {
-          node {
-            sourceUrl
-            altText
-            mediaDetails {
-              width
-              height
-            }
-          }
-        }
-        tags {
-          nodes {
-            name
-            slug
-          }
-        }
-      }
-    }
-  }
-`;
-
-let posts = [];
-try {
-  const data = await graphQLClient.request(GET_POSTS);
-  posts = data.posts.nodes;
-} catch (error) {
-  console.error("Error fetching posts:", error);
-}
+const years = new Date().getFullYear() - 1992;
+const patentCount = patents.reduce((n, f) => n + f.items.length, 0);
+const stats = [
+  { value: `Est. ${site.founded}`, label: `${site.state} limited liability company` },
+  { value: `${Math.floor(years / 5) * 5}+ years`, label: "building voice, speech and contact center technology" },
+  { value: `${patentCount} US patents`, label: "with our founder as a named inventor" },
+];
 ---
 
-<BaseLayout title="BAM Team Services">
-	<header class="bg-blue-800 text-white py-4 shadow-md">
-		<div class="container mx-auto flex flex-col md:flex-row justify-between items-center px-4">
-			<h1 class="text-3xl font-extrabold mb-2 md:mb-0"><a href="/" class="hover:text-red-400">BAM Team Services</a></h1>
-			<nav>
-				<ul class="flex space-x-4">
-					<li><a href="#" class="hover:text-red-400">Home</a></li>
-					<li><a href="#" class="hover:text-red-400">Services</a></li>
-					<li><a href="#" class="hover:text-red-400">Blog</a></li>
-					<li><a href="#" class="hover:text-red-400">Contact</a></li>
-				</ul>
-			</nav>
-		</div>
-	</header>
+<BaseLayout>
+  <!-- Hero -->
+  <section class="relative overflow-hidden">
+    <div aria-hidden="true" class="pointer-events-none absolute -right-40 -top-40 h-[34rem] w-[34rem] rounded-full bg-gradient-to-br from-navy/10 to-teal-brand/15 blur-3xl"></div>
+    <div class="relative mx-auto max-w-6xl px-5 pb-20 pt-20 sm:pt-28">
+      <p class="eyebrow">Privately held · Est. {site.founded}</p>
+      <h1 class="mt-5 max-w-4xl text-5xl leading-[1.05] sm:text-7xl">Innovation for good.</h1>
+      <p class="mt-7 max-w-2xl text-lg leading-relaxed text-muted sm:text-xl">
+        {site.legalName} builds and backs ventures where technology serves people. We bring decades of
+        experience, resources and operating infrastructure, so the people doing the work can focus on it.
+        Our focus today is <a href={site.mnwUrl} class="font-medium text-ink underline">My Nurse Whitney</a>.
+      </p>
+      <div class="mt-10 flex flex-wrap gap-3">
+        <a href="#ventures" class="rounded-full bg-ink px-6 py-3 text-sm font-semibold text-paper hover:bg-teal">Our ventures</a>
+        <a href="#contact" class="rounded-full border border-ink/70 px-6 py-3 text-sm font-semibold hover:bg-ink hover:text-paper">Request an appointment</a>
+      </div>
+    </div>
+    <div class="border-y border-rule bg-white/60">
+      <dl class="mx-auto grid max-w-6xl gap-px px-5 sm:grid-cols-3">
+        {stats.map((s) => (
+          <div class="py-7 sm:px-6 sm:first:pl-0">
+            <dt class="sr-only">{s.label}</dt>
+            <dd class="font-display font-semibold text-3xl">{s.value}</dd>
+            <dd class="mt-1 text-sm text-muted">{s.label}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
 
-	<section class="relative bg-red-600 text-white py-20 text-center overflow-hidden">
-		<div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('/hero-background.svg');"></div>
-		<div class="container mx-auto relative z-10 px-4">
-			<h2 class="text-6xl font-extrabold mb-6 leading-tight drop-shadow-lg">BAM Team Services</h2>
-			<p class="text-2xl mb-10 font-light">Strategic Solutions for Your Business</p>
-			<a href="#" class="bg-white text-blue-800 hover:bg-gray-200 font-bold py-3 px-8 rounded-full transition duration-300">Get a Free Consultation</a>
-		</div>
-	</section>
+  <!-- Ventures -->
+  <section id="ventures" class="mx-auto max-w-6xl px-5 py-24">
+    <p class="eyebrow">Ventures</p>
+    <h2 class="mt-3 max-w-2xl text-4xl sm:text-5xl">What we stand behind</h2>
 
-	<main class="container mx-auto px-4 py-8">
-		<h2 class="text-3xl font-bold text-center mb-8">Latest Insights</h2>
-		{posts.length > 0 ? (
-			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-				{posts.map((post) => (
-					<div class="bg-white rounded-lg shadow-lg overflow-hidden">
-						{post.featuredImage && post.featuredImage.node && (
-							<img src={post.featuredImage.node.sourceUrl} alt={post.featuredImage.node.altText || post.title} width={post.featuredImage.node.mediaDetails.width} height={post.featuredImage.node.mediaDetails.height} class="w-full h-48 object-cover" />
-						)}
-						<div class="p-6">
-							<h3 class="text-xl font-semibold mb-2"><a href={`/posts/${post.uri}`}>{post.title}</a></h3>
-							{post.tags && post.tags.nodes.length > 0 && (
-								<p class="text-gray-600 text-sm mb-4">Tags: {post.tags.nodes.map(tag => tag.name).join(', ')}</p>
-							)}
-							<div class="text-gray-700 mb-4" set:html={post.content.substring(0, 150) + '...'} />
-							<a href={`/posts/${post.uri}`} class="text-blue-600 hover:underline">Read More</a>
-						</div>
-					</div>
-				))}
-			</div>
-		) : (
-			<p class="text-center text-gray-600 text-xl py-10">No posts found. Please add some posts in your WordPress CMS with the tag "bamteam" or "all".</p>
-		)}
-	</main>
+    <article class="mt-12 grid overflow-hidden rounded-2xl border border-rule bg-white shadow-sm lg:grid-cols-5">
+      <div class="flex items-center justify-center bg-[#f6f2ea] p-10 lg:col-span-2">
+        <img src={mnwLogo.src} alt="My Nurse Whitney, private RN care management" width="320" height="129" class="w-full max-w-xs" />
+      </div>
+      <div class="p-8 sm:p-10 lg:col-span-3">
+        <p class="eyebrow">Our focus</p>
+        <h3 class="mt-2 text-3xl">My Nurse Whitney</h3>
+        <p class="mt-4 leading-relaxed text-muted">
+          Private RN care management for families whose aging parents live far away. Whitney Treloar, MSN, RN, CCM,
+          becomes the family's eyes and ears: coordinating doctors, reviewing medications, explaining care in plain
+          English and keeping everyone informed. Entirely remote, private pay.
+        </p>
+        <p class="mt-4 leading-relaxed text-muted">
+          My Nurse Whitney is a service of {site.legalName}. We provide the company, technology and business
+          infrastructure behind it, so Whitney can spend her time on families.
+        </p>
+        <a href={site.mnwUrl} class="mt-7 inline-flex items-center gap-2 rounded-full bg-teal px-5 py-2.5 text-sm font-semibold text-white hover:bg-ink">
+          Visit mynursewhitney.com <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </article>
 
-	<footer>
-		<p>&copy; {new Date().getFullYear()} ACME Marketing. All rights reserved.</p>
-	</footer>
+    <div class="mt-6 grid gap-6 md:grid-cols-2">
+      <article class="rounded-2xl bg-navy p-8 text-paper sm:p-10">
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-teal-bright">In stealth</p>
+        <h3 class="mt-2 text-2xl">Pioneering AI patient monitoring</h3>
+        <p class="mt-4 leading-relaxed text-paper/75">
+          A new venture bringing together clinical judgment and AI to keep patients connected to their care between visits.
+          More when we're ready to share it.
+        </p>
+      </article>
+      <article class="rounded-2xl border border-rule bg-white p-8 sm:p-10">
+        <p class="eyebrow">2020</p>
+        <h3 class="mt-2 text-2xl">BAM Air</h3>
+        <p class="mt-4 leading-relaxed text-muted">
+          When schools were deciding whether to reopen, we designed HEPA filtration units to help make classrooms
+          and small businesses safer. It's the project that gave us our motto: innovation for good.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Track record -->
+  <section id="record" class="border-y border-rule bg-paper-deep/60">
+    <div class="mx-auto max-w-6xl px-5 py-24">
+      <p class="eyebrow">Track record</p>
+      <h2 class="mt-3 max-w-3xl text-4xl sm:text-5xl">More than {Math.floor(years / 5) * 5} years of building what's next</h2>
+      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-muted">
+        Speech recognition before it was everyday. Cloud contact centers before the cloud had a name.
+        The experience behind BAM Team Services started long before 2018.
+      </p>
+
+      <ol class="mt-14 border-l border-rule">
+        {timeline.map((t) => (
+          <li class="relative pb-10 pl-8 last:pb-0 sm:grid sm:grid-cols-[7rem_1fr] sm:gap-8 sm:pl-10">
+            <span aria-hidden="true" class="absolute -left-[5px] top-2 h-2.5 w-2.5 rounded-full bg-teal ring-4 ring-paper-deep"></span>
+            <p class="font-display text-2xl font-semibold text-teal">{t.year}</p>
+            <div>
+              <h3 class="text-xl">{t.title}</h3>
+              <p class="mt-1.5 max-w-2xl leading-relaxed text-muted">{t.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <div class="mt-20">
+        <h3 class="text-3xl">Patents</h3>
+        <p class="mt-3 max-w-2xl leading-relaxed text-muted">
+          Our founder is a named inventor on {patentCount} US patents in voice and contact center technology.
+        </p>
+        <div class="mt-8 grid gap-6 md:grid-cols-2">
+          {patents.map((f) => (
+            <div class="rounded-2xl border border-rule bg-white p-7">
+              <h4 class="text-xl">{f.family}</h4>
+              <p class="mt-2 text-sm leading-relaxed text-muted">{f.note}</p>
+              <ul class="mt-5 divide-y divide-rule border-t border-rule text-sm">
+                {f.items.map((p) => (
+                  <li>
+                    <a href={`https://patents.google.com/patent/${p.id}/en`} class="flex justify-between py-2.5 hover:text-teal" rel="noopener">
+                      <span class="font-medium tabular-nums">{p.number}</span>
+                      <span class="text-muted">Granted {p.granted} ↗</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Leadership -->
+  <section id="leadership" class="mx-auto max-w-6xl px-5 py-24">
+    <p class="eyebrow">Leadership</p>
+    <h2 class="mt-3 text-4xl sm:text-5xl">The people behind the company</h2>
+    <div class="mt-12 grid gap-6 md:grid-cols-2">
+      <article class="rounded-2xl border border-rule bg-white p-8 sm:p-10">
+        <div aria-hidden="true" class="flex h-14 w-14 items-center justify-center rounded-full bg-navy font-display font-semibold text-xl text-white">WS</div>
+        <h3 class="mt-6 text-2xl">Wayne Sheppard</h3>
+        <p class="text-sm font-medium text-teal">Founder &amp; Managing Partner</p>
+        <p class="mt-4 leading-relaxed text-muted">
+          Wayne has spent more than three decades building voice, speech and contact center technology. He founded
+          and sold SpeechCraft, joined Genesys Telecommunications Labs before its IPO, served as CTO of Corybant and
+          led professional services and product management at Echopass.
+        </p>
+        <p class="mt-4 leading-relaxed text-muted">
+          He has delivered work alongside Andersen, PwC and Deloitte &amp; Touche, for clients including Bank of America,
+          Citibank, Intel and FedEx, and is a named inventor on {patentCount} US patents.
+        </p>
+      </article>
+      <article class="rounded-2xl border border-rule bg-white p-8 sm:p-10">
+        <div aria-hidden="true" class="flex h-14 w-14 items-center justify-center rounded-full bg-teal-brand font-display font-semibold text-xl text-white">WT</div>
+        <h3 class="mt-6 text-2xl">Whitney Treloar, MSN, RN, CCM</h3>
+        <p class="text-sm font-medium text-teal">Member · Founder, My Nurse Whitney</p>
+        <p class="mt-4 leading-relaxed text-muted">
+          Whitney is a registered nurse and certified case manager with a master's in nursing education. She has
+          worked in ICU and cardiac care, home health, psychiatric case management and remote case management, and
+          has led teams of nurses, therapists and social workers caring for older adults at home.
+        </p>
+        <p class="mt-4 leading-relaxed text-muted">
+          She has taught nursing at the college level and is licensed in Florida (multistate compact), New York,
+          California, Illinois and Nevada.
+        </p>
+      </article>
+    </div>
+
+    <div class="mt-16 grid gap-8 border-t border-rule pt-12 md:grid-cols-3">
+      <div>
+        <h3 class="text-xl">Technology serves people</h3>
+        <p class="mt-2 leading-relaxed text-muted">We build tools that make care, work and life better for real people, not technology for its own sake.</p>
+      </div>
+      <div>
+        <h3 class="text-xl">We stand behind what we build</h3>
+        <p class="mt-2 leading-relaxed text-muted">Our ventures get operating support, infrastructure and a partner who's in it for the long haul.</p>
+      </div>
+      <div>
+        <h3 class="text-xl">Do the right thing</h3>
+        <p class="mt-2 leading-relaxed text-muted">We stand up for patients and customers, even when it's hard.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="bg-navy text-paper">
+    <div class="mx-auto grid max-w-6xl gap-12 px-5 py-24 md:grid-cols-2 md:items-center">
+      <div>
+        <img src={logoWhite.src} alt="" width="281" height="42" class="h-10 w-auto" />
+        <h2 class="mt-10 text-4xl sm:text-5xl">Appointments by request</h2>
+        <p class="mt-5 max-w-md text-lg leading-relaxed text-paper/75">
+          BAM Team Services is a holding company and doesn't take unsolicited engagements. For partnerships,
+          press or business inquiries, write to us and we'll arrange a time to talk.
+        </p>
+      </div>
+      <div class="rounded-2xl border border-white/15 bg-white/5 p-8 sm:p-10">
+        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-teal-bright">Request an appointment</p>
+        <a href={`mailto:${site.email}?subject=Appointment%20request`} class="mt-4 block break-all font-display font-semibold text-2xl underline decoration-white/30 hover:decoration-white sm:text-3xl">{site.email}</a>
+        <p class="mt-6 text-sm leading-relaxed text-paper/65">
+          Looking for care for a parent? Please contact{" "}
+          <a href={site.mnwUrl} class="text-paper underline">My Nurse Whitney</a> directly.
+        </p>
+      </div>
+    </div>
+  </section>
 </BaseLayout>

@@ -1,4 +1,47 @@
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* BAM Team Services brand, spec v1.0 (brand/README.md). */
+@theme {
+  --font-display: "Montserrat Variable", system-ui, sans-serif;
+  --font-sans: "Inter Variable", system-ui, sans-serif;
+
+  --color-paper: #f7f9fa;
+  --color-paper-deep: #eaf0f3;
+  --color-ink: #0b2236;
+  --color-muted: #51606d;
+  --color-rule: #d6dee4;
+  --color-navy: #082f50;      /* Primary Navy */
+  --color-teal-brand: #079d9f; /* Accent Teal: logo hump, large accents, fills */
+  --color-teal: #06797b;       /* Same teal, deepened for small text on light (AA contrast) */
+  --color-teal-bright: #3cc3c5; /* Teal for text on navy */
+}
+
+@layer base {
+  html {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  p { text-wrap: pretty; }
+  a { text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+  :focus-visible { outline: 2px solid var(--color-teal-brand); outline-offset: 3px; }
+  section[id] { scroll-margin-top: 5rem; }
+}
+
+@utility eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-teal);
+}

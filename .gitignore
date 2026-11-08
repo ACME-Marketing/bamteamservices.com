@@ -1,23 +1,21 @@
-# Dependencies
-/node_modules
 
-# Build artifacts
-/dist
-
-# Astro specific
+.idea
+.vscode
+*.njsproj
+*.ntvs*
+*.sln
+*.suo
+*.sw?
 /.astro
-
+/dist
+/node_modules
+# Astro specific
+# Build artifacts
+# Dependencies
+# Editor directories and files
 # Logs
+brand/.render/
 npm-debug.log*
+pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
-
-# Editor directories and files
-.vscode
-.idea
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?

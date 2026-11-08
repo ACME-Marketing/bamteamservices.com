@@ -1,0 +1,26 @@
+# Static Astro site. The LiteSpeed page cache (left over from WordPress) isn't needed.
+<IfModule LiteSpeed>
+  CacheLookup off
+</IfModule>
+
+# One canonical address: https://bamteamservices.com (www and http redirect here).
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^www\.bamteamservices\.com$ [NC]
+  RewriteRule ^ https://bamteamservices.com%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Browsers remember to use https only (1 year; subdomains not included).
+  Header always set Strict-Transport-Security "max-age=31536000"
+  # Pages: revalidate often so deploys show up quickly (also limits the Hostinger CDN).
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=300"
+  </FilesMatch>
+  # Fingerprinted build assets never change.
+  <If "%{REQUEST_URI} =~ m#^/_astro/#">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </If>
+</IfModule>
+
+ErrorDocument 404 /index.html

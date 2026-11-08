@@ -1,34 +1,71 @@
 ---
-interface Props {
-	title: string;
-}
+import "@fontsource-variable/montserrat";
+import "@fontsource-variable/inter";
+import "../styles/global.css";
+import logo from "../assets/logo-header.svg";
+import { site } from "../site";
 
-const { title } = Astro.props;
+interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+  title = `${site.name} | ${site.tagline}`,
+  description = `${site.legalName} is a privately held Florida company, established ${site.founded}, that builds and backs ventures where technology serves people, including My Nurse Whitney.`,
+} = Astro.props;
+const year = new Date().getFullYear();
+const nav = [
+  { href: "#ventures", label: "Ventures" },
+  { href: "#record", label: "Track record" },
+  { href: "#leadership", label: "Leadership" },
+  { href: "#contact", label: "Contact" },
+];
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-		
-	</head>
-	<body>
-		<slot />
-	<footer class="bg-gray-800 text-white py-8 mt-12">
-			<div class="container mx-auto px-4 text-center">
-				<div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8 mb-4">
-					<a href="/about" class="hover:underline">About</a>
-					<a href="/privacy" class="hover:underline">Privacy</a>
-				</div>
-				<p class="text-sm mb-2">123 Marketing Lane, Suite 456, Anytown, USA 12345</p>
-				<p class="text-sm mb-2">Email: info@bamteamservices.com</p>
-				<p class="text-sm">&copy; {new Date().getFullYear()} BAM Team Services. All rights reserved.</p>
-			</div>
-		</footer>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="og:image" content={new URL("/og-image.png", Astro.site)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#082f50" />
+  </head>
+  <body class="min-h-screen">
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:bg-white focus:px-3 focus:py-2">Skip to content</a>
+    <header class="sticky top-0 z-20 border-b border-rule/70 bg-paper/90 backdrop-blur">
+      <div class="mx-auto flex max-w-6xl items-center justify-between gap-6 px-5 py-3">
+        <a href="/" class="shrink-0" aria-label={`${site.name} home`}>
+          <img src={logo.src} alt={site.name} width="201" height="30" class="h-8 w-auto sm:h-9" />
+        </a>
+        <nav aria-label="Main" class="hidden md:block">
+          <ul class="flex items-center gap-7 text-sm font-medium text-muted">
+            {nav.map((n) => <li><a href={n.href} class="hover:text-ink">{n.label}</a></li>)}
+          </ul>
+        </nav>
+        <a href="#contact" class="rounded-full border border-ink/80 px-4 py-2 text-sm font-medium hover:bg-ink hover:text-paper md:hidden">Contact</a>
+      </div>
+    </header>
+
+    <main id="main"><slot /></main>
+
+    <footer class="border-t border-rule bg-paper">
+      <div class="mx-auto flex max-w-6xl flex-col gap-4 px-5 py-10 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+        <p>&copy; {year} {site.legalName}. A {site.state} limited liability company, est. {site.founded}.</p>
+        <p class="font-display font-medium text-navy">{site.tagline}</p>
+      </div>
+    </footer>
+  </body>
 </html>
